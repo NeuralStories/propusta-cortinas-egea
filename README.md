@@ -1,19 +1,21 @@
 # CortinasExpress Configurator
 
-React · TypeScript · Tailwind CSS · Supabase
+React TypeScript Tailwind CSS Supabase Status
 
-CortinasExpress Configurator es una plataforma de orquestacion de servicios de campo de alta fidelidad (Field Service Orchestrator). Esta disenada para cerrar la brecha entre la planificacion centralizada y la ejecucion operativa, con una interfaz dual que permite gestionar ordenes de trabajo complejas y su ejecucion secuencial en campo mediante dispositivos moviles.
+CortinasExpress Configurator es una plataforma de orquestacion de servicios de campo de alta fidelidad (Field Service Orchestrator). Disenada para cerrar la brecha entre la planificacion centralizada y la ejecucion operativa, la aplicacion proporciona una interfaz dual que permite la gestion de ordenes de trabajo complejas y su ejecucion secuencial en campo mediante dispositivos moviles.
 
 El sistema destaca por su validacion contextual, guiando al operario paso a paso a traves de procedimientos tecnicos (mediciones, seleccion de tejidos y normativas) mientras mantiene una conexion simulada con sistemas de ingenieria para asegurar la viabilidad tecnica.
 
 ## Caracteristicas principales
-- Interfaz dual de alta fidelidad, responsiva y optimizada para operarios en movilidad.
-- Validacion contextual con feedback inmediato sobre viabilidad de fabricacion.
-- Gestion de ordenes complejas con flujo guiado de medidas y materiales.
-- Proteccion de margen con ocultacion de precios en pedidos de alto volumen.
-- Reporte automatico con generacion de informes tecnicos en HTML.
+- Interfaz dual de alta fidelidad con diseno responsivo optimizado para operarios en movilidad.
+- Validacion contextual IA con feedback inmediato sobre la viabilidad de fabricacion.
+- Gestion de ordenes complejas con flujo guiado para configuracion de medidas y materiales.
+- Proteccion de margen con logica de negocio dinamica para ocultar precios en pedidos de alto volumen.
+- Reporte automatico con generacion de informes tecnicos en HTML para ingenieria y ventas.
 
 ## Stack tecnologico
+La arquitectura utiliza un ecosistema de ultima generacion para garantizar precision y fluidez.
+
 Componente | Tecnologia | Proposito
 --- | --- | ---
 Core | React 18/19 + TypeScript | Logica de negocio robusta, tipada y escalable.
@@ -22,9 +24,9 @@ Backend/Data | Supabase | Persistencia de metricas, clientes y estados de ordene
 UI/UX | Lucide React | Iconografia tecnica para feedback visual inmediato.
 
 ## Reglas de negocio (Orchestrator)
-- Restricciones de ingenieria: limite de fabricacion 270 cm de altura; valores superiores activan validacion manual forzosa.
-- Umbral de ejecucion directa: minimo 10 unidades; cantidades menores bloquean "Compra Directa".
-- Proteccion de margen y volumen: disparadores >100 unidades o >2.500 EUR; oculta precios y deriva a revision comercial.
+- Restricciones de ingenieria: limite de fabricacion 270 cm de altura. Accion: valores superiores activan validacion manual forzosa.
+- Umbral de ejecucion directa: requisito minimo 10 unidades. Accion: cantidades menores no permiten el paso a "Compra Directa".
+- Proteccion de margen y volumen: disparadores >100 unidades o >2.500 EUR. Accion: ocultacion dinamica de precios y derivacion a revision comercial.
 
 ## Instalacion
 ```bash
