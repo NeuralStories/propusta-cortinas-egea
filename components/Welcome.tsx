@@ -45,7 +45,7 @@ export const Welcome: React.FC<WelcomeProps> = ({ onStart }) => {
         {/* Logo Egea */}
         <div className="mb-8">
             <img 
-              src="/image/logo-placeholder.jpg.png" 
+              src="/image/egea-logo.png" 
               alt="Logo EGEA" 
               className="h-16 md:h-20 object-contain"
             />

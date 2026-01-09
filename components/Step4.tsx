@@ -233,7 +233,7 @@ export const Step4: React.FC<Step4Props> = ({
       <div className="flex-1">
         {/* TITULO MODIFICADO */}
         <div className="flex flex-col items-center gap-3 mb-4 text-center">
-          <img src="/image/logo-placeholder.jpg.png" alt="Logo EGEA" className="h-10 object-contain" />
+          <img src="/image/egea-logo.png" alt="Logo EGEA" className="h-10 object-contain" />
           <h2 className="text-xl md:text-2xl font-bold text-gray-800 flex items-center gap-2">
             <Check className="text-green-500" /> Resumen de la solicitud de presupuesto
           </h2>
