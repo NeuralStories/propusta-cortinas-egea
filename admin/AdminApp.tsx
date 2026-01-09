@@ -11,6 +11,17 @@ type TabKey = 'dashboard' | 'materials' | 'formulas' | 'orders' | 'email-styles'
 
 export const AdminApp: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabKey>('dashboard');
+  const adminPublicUrl =
+    (import.meta as any).env?.VITE_ADMIN_PUBLIC_URL ||
+    (typeof window !== 'undefined' ? `${window.location.origin}/admin` : '/admin');
+
+  const copyAdminUrl = async () => {
+    try {
+      await navigator.clipboard.writeText(adminPublicUrl);
+    } catch (error) {
+      return;
+    }
+  };
 
   return (
     <AdminAuthGuard>
@@ -23,12 +34,32 @@ export const AdminApp: React.FC = () => {
               <p className="text-sm text-gray-500">Acceso restringido</p>
             </div>
           </div>
-          <button
-            onClick={() => supabase.auth.signOut()}
-            className="px-4 py-2 text-sm font-medium bg-gray-900 text-white rounded-lg"
-          >
-            Salir
-          </button>
+          <div className="flex items-center gap-3">
+            <div className="hidden md:flex flex-col items-end text-xs text-gray-500">
+              <span>Acceso externo</span>
+              <button
+                type="button"
+                onClick={copyAdminUrl}
+                className="text-orange-600 hover:text-orange-700"
+                title="Copiar enlace de admin"
+              >
+                Copiar enlace
+              </button>
+            </div>
+            <button
+              type="button"
+              onClick={copyAdminUrl}
+              className="md:hidden px-3 py-2 text-xs font-medium border border-gray-300 rounded-lg text-gray-700"
+            >
+              Copiar URL
+            </button>
+            <button
+              onClick={() => supabase.auth.signOut()}
+              className="px-4 py-2 text-sm font-medium bg-gray-900 text-white rounded-lg"
+            >
+              Salir
+            </button>
+          </div>
         </header>
 
         <nav className="max-w-6xl mx-auto flex gap-2 mb-6">

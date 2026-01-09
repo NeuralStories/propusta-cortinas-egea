@@ -25,7 +25,6 @@ export const OrdersManager: React.FC = () => {
       if (error) throw error;
       setOrders(data || []);
     } catch (error) {
-      console.error('Error fetching orders:', error);
     } finally {
       setLoading(false);
     }
@@ -44,7 +43,6 @@ export const OrdersManager: React.FC = () => {
         order.id === orderId ? { ...order, status: newStatus } : order
       ));
     } catch (error) {
-      console.error('Error updating order status:', error);
     }
   };
 
@@ -395,7 +393,6 @@ export const OrdersManager: React.FC = () => {
       alert(`Presupuesto ${budgetNumber} enviado correctamente al cliente.`);
       
     } catch (error) {
-      console.error('Error al enviar el presupuesto:', error);
       alert('Error al enviar el presupuesto. Por favor, inténtelo de nuevo.');
     } finally {
       setSendingBudget(null);

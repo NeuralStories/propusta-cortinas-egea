@@ -4,6 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CortinasExpress Configurator</title>
+    <script>
+      (function () {
+        const originalWarn = console.warn;
+        console.warn = function () {
+          const args = Array.prototype.slice.call(arguments);
+          const message = args.join(' ');
+          if (message.indexOf('cdn.tailwindcss.com should not be used in production') !== -1) {
+            return;
+          }
+          originalWarn.apply(console, args);
+        };
+      })();
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {

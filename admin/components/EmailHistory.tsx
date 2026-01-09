@@ -57,7 +57,6 @@ export const EmailHistory: React.FC = () => {
 
       setEmails(emailHistory);
     } catch (error) {
-      console.error('Error fetching email history:', error);
     } finally {
       setLoading(false);
     }

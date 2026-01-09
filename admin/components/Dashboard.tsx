@@ -105,7 +105,6 @@ export const Dashboard: React.FC = () => {
         .select('*');
 
       if (customersError || ordersError) {
-        console.error('Error loading data:', customersError || ordersError);
         // En caso de error, usar datos vacíos
         setStats({
           totalCustomers: 0,
@@ -166,7 +165,6 @@ export const Dashboard: React.FC = () => {
       setOrders(ordersData || []);
       
     } catch (error) {
-      console.error('Error loading dashboard data:', error);
       // En caso de error, usar datos vacíos
       setStats({
         totalCustomers: 0,

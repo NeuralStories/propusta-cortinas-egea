@@ -1,57 +1,86 @@
 # CortinasExpress Configurator
 
-![React](https://img.shields.io/badge/React-18%2F19-blue?logo=react)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?logo=typescript)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind-CSS-38B2AC?logo=tailwind-css)
-![Supabase](https://img.shields.io/badge/Supabase-Database-3ECF8E?logo=supabase)
-![Status](https://img.shields.io/badge/Status-Development-yellow)
+React TypeScript Tailwind CSS Supabase Status
 
-**CortinasExpress Configurator** es una plataforma de orquestación de servicios de campo de alta fidelidad (*Field Service Orchestrator*). Diseñada para cerrar la brecha entre la planificación centralizada y la ejecución operativa, la aplicación proporciona una interfaz dual que permite la gestión de órdenes de trabajo complejas y su ejecución secuencial en campo mediante dispositivos móviles.
+CortinasExpress Configurator es una plataforma de orquestacion de servicios de campo de alta fidelidad (Field Service Orchestrator). Esta disenada para cerrar la brecha entre la planificacion centralizada y la ejecucion operativa, con una interfaz dual que permite la gestion de ordenes de trabajo complejas y su ejecucion secuencial en campo mediante dispositivos moviles.
 
-El sistema destaca por su **validación contextual**, guiando al operario paso a paso a través de procedimientos técnicos (mediciones, selección de tejidos y normativas) mientras mantiene una conexión simulada con sistemas de ingeniería para asegurar la viabilidad técnica.
+El sistema destaca por su validacion contextual, guiando al operario paso a paso a traves de procedimientos tecnicos (mediciones, seleccion de tejidos y normativas) mientras mantiene una conexion simulada con sistemas de ingenieria para asegurar la viabilidad tecnica.
 
-##  Características Principales
+## Caracteristicas principales
+- Interfaz dual de alta fidelidad, responsiva y optimizada para operarios en movilidad.
+- Validacion contextual con feedback inmediato sobre viabilidad de fabricacion.
+- Gestion de ordenes complejas con flujo guiado de medidas y materiales.
+- Proteccion de margen con ocultacion de precios en pedidos de alto volumen.
+- Reporte automatico con generacion de informes tecnicos en HTML.
 
--   **Interfaz Dual de Alta Fidelidad:** Diseño responsivo optimizado para operarios en movilidad.
--   **Validación Contextual IA:** Feedback inmediato sobre la viabilidad de fabricación.
--   **Gestión de Órdenes Complejas:** Flujo guiado para configuración de medidas y materiales.
--   **Protección de Margen:** Lógica de negocio dinámica para ocultar precios en pedidos de alto volumen.
--   **Reporte Automático:** Generación de informes técnicos en HTML para ingeniería y ventas.
+## Stack tecnologico
+Componente | Tecnologia | Proposito
+--- | --- | ---
+Core | React 18/19 + TypeScript | Logica de negocio robusta, tipada y escalable.
+Estilos | Tailwind CSS | Diseno mobile-first rapido y responsivo.
+Backend/Data | Supabase | Persistencia de metricas, clientes y estados de ordenes.
+UI/UX | Lucide React | Iconografia tecnica para feedback visual inmediato.
 
-##  Stack Tecnológico
+## Reglas de negocio (Orchestrator)
+- Restricciones de ingenieria: limite de fabricacion 270 cm de altura; valores superiores activan validacion manual forzosa.
+- Umbral de ejecucion directa: minimo 10 unidades; cantidades menores bloquean "Compra Directa".
+- Proteccion de margen y volumen: disparadores >100 unidades o >2.500 EUR; oculta precios y deriva a revision comercial.
 
-La arquitectura utiliza un ecosistema de última generación para garantizar precisión y fluidez:
+## Instalacion
+```bash
+npm install
+npm run dev
+```
 
-| Componente | Tecnología | Propósito |
-| :--- | :--- | :--- |
-| **Core** | React 18/19 + TypeScript | Lógica de negocio robusta, tipada y escalable. |
-| **Estilos** | Tailwind CSS | Diseño *mobile-first* rápido y responsivo. |
-| **Backend/Data** | Supabase | Persistencia de métricas, clientes y estados de órdenes. |
-| **UI/UX** | Lucide React | Iconografía técnica para feedback visual inmediato. |
+## Variables de entorno
+Crear `.env.local` en la raiz:
+```
+VITE_SUPABASE_URL=...
+VITE_SUPABASE_ANON_KEY=...
+VITE_ADMIN_PUBLIC_URL=https://tudominio.com/admin   # opcional
+```
 
-##  Reglas de Negocio (Lógica del Orchestrator)
+## Base de datos (Supabase)
+1) Ejecuta el SQL maestro:
+   - `supabase/master.sql`
+2) Actualiza el schema cache en Supabase.
 
-El sistema aplica restricciones críticas automáticamente para minimizar errores humanos:
+Esto crea tablas, indices, triggers y politicas RLS.
 
-* ** Restricciones de Ingeniería:**
-    * Límite de fabricación: **270 cm de altura**.
-    * *Acción:* Valores superiores activan un flujo de validación manual forzosa.
-* ** Umbral de Ejecución Directa:**
-    * Requisito mínimo: **10 unidades**.
-    * *Acción:* Cantidades menores no permiten el paso a "Compra Directa".
-* ** Protección de Margen y Volumen:**
-    * Disparadores: **>100 unidades** o **>2.500€**.
-    * *Acción:* Ocultación dinámica de precios y derivación a revisión comercial.
+## Acceso Admin
+- Ruta: `/admin`
+- Login con Supabase Auth (email + password)
+- El boton "Copiar enlace" usa `VITE_ADMIN_PUBLIC_URL` si esta definido.
 
-##  Estructura del Proyecto
+## Seguridad (resumen)
+- RLS activado:
+  - Publico: solo `INSERT` en `orders`.
+  - Admin autenticado: `SELECT/UPDATE/DELETE` en `orders` y `email_logs`.
+  - `materials`: lectura publica.
+- Rate limit basico en el envio (30s).
 
-```plaintext
-├── components/           # Orquestadores de la interfaz dual
-│   ├── Step1.tsx         # Datos profesionales (CIF/NIF/Razón Social)
-│   ├── Step2.tsx         # Selector de materiales y confección técnica
-│   ├── Step3.tsx         # Módulo de mediciones y cálculo de área
-│   ├── Step4.tsx         # Resumen, avisos legales y envío
-├── services/             # Conectividad externa
-│   └── supabase.ts       # Cliente de orquestación de datos
-├── constants.ts          # Parámetros técnicos y umbrales
-└── types.ts              # Definiciones TypeScript (Arquitectura de datos)
+## Exportacion de datos
+En Admin > Pedidos:
+- Exportar CSV
+- Exportar JSON
+
+## Estructura del proyecto
+```
+components/           # Orquestadores de la interfaz dual
+  Step1.tsx           # Datos profesionales (CIF/NIF/Razon Social)
+  Step2.tsx           # Selector de materiales y confeccion tecnica
+  Step3.tsx           # Modulo de mediciones y calculo de area
+  Step4.tsx           # Resumen, avisos legales y envio
+services/             # Conectividad externa
+  supabase.ts         # Cliente de orquestacion de datos
+constants.ts          # Parametros tecnicos y umbrales
+types.ts              # Definiciones TypeScript (arquitectura de datos)
+admin/                # Backoffice
+supabase/             # SQL
+image/                # Assets usados
+BULK/                 # Archivos no esenciales
+```
+
+## Notas
+- Tailwind via CDN muestra aviso en consola; se suprime en dev.
+- Para produccion, instalar Tailwind como PostCSS o CLI.

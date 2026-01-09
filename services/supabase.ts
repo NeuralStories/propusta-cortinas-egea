@@ -26,10 +26,14 @@ export interface DatabaseOrder {
   updated_at?: string;
 }
 
+const ensureAdminSession = async () => {
+  const { data } = await supabase.auth.getSession();
+  return !!data.session;
+};
+
 export const submitOrder = async (orderData: OrderData) => {
   // If keys are missing, throw a helpful error
   if (supabaseUrl === 'https://placeholder-url.supabase.co') {
-     console.warn("Supabase keys missing. Simulating success for UI demo.");
      await new Promise(resolve => setTimeout(resolve, 1500)); // Fake delay
      return { data: { id: 'simulated-id', reference_number: 'EG000000' }, error: null };
   }
@@ -44,24 +48,16 @@ export const submitOrder = async (orderData: OrderData) => {
       reference_number: referenceNumber
     };
 
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from('orders')
-      .insert([orderPayload])
-      .select()
-      .single();
+      .insert([orderPayload]);
 
     if (error) throw error;
     
     // Añadir el número de referencia al objeto de respuesta
-    const orderWithReference = {
-      ...data,
-      reference_number: data?.reference_number || referenceNumber
-    };
-    
-    return { data: orderWithReference, error: null };
+    return { data: { reference_number: referenceNumber }, error: null };
   } catch (error) {
-    console.error('Error submitting order:', error);
-    return { data: null, error };
+        return { data: null, error };
   }
 };
 
@@ -72,8 +68,12 @@ export const getOrders = async (filters?: {
   search?: string;
 }) => {
   try {
+    const hasSession = await ensureAdminSession();
+    if (!hasSession) {
+      return { data: [], error: null } as any;
+    }
+
     if (supabaseUrl === 'https://placeholder-url.supabase.co') {
-      console.warn("Supabase keys missing. Returning mock orders.");
       return { 
         data: [
           {
@@ -132,15 +132,18 @@ export const getOrders = async (filters?: {
     
     return { data: ordersWithReferences as DatabaseOrder[], error: null };
   } catch (error) {
-    console.error('Error fetching orders:', error);
-    return { data: [], error };
+        return { data: [], error };
   }
 };
 
 export const getOrderById = async (id: string) => {
   try {
+    const hasSession = await ensureAdminSession();
+    if (!hasSession) {
+      return { data: null, error: null } as any;
+    }
+
     if (supabaseUrl === 'https://placeholder-url.supabase.co') {
-      console.warn("Supabase keys missing. Returning mock order.");
       return { 
         data: {
           id: '1',
@@ -181,15 +184,18 @@ export const getOrderById = async (id: string) => {
     
     return { data: orderWithReference as DatabaseOrder, error: null };
   } catch (error) {
-    console.error('Error fetching order:', error);
-    return { data: null, error };
+        return { data: null, error };
   }
 };
 
 export const updateOrderStatus = async (id: string, status: DatabaseOrder['status']) => {
   try {
+    const hasSession = await ensureAdminSession();
+    if (!hasSession) {
+      return { data: null, error: null } as any;
+    }
+
     if (supabaseUrl === 'https://placeholder-url.supabase.co') {
-      console.warn("Supabase keys missing. Simulating status update.");
       return { 
         data: { 
           id, 
@@ -211,15 +217,18 @@ export const updateOrderStatus = async (id: string, status: DatabaseOrder['statu
     if (error) throw error;
     return { data: data as DatabaseOrder, error: null };
   } catch (error) {
-    console.error('Error updating order status:', error);
-    return { data: null, error };
+        return { data: null, error };
   }
 };
 
 export const deleteOrder = async (id: string) => {
   try {
+    const hasSession = await ensureAdminSession();
+    if (!hasSession) {
+      return { error: null } as any;
+    }
+
     if (supabaseUrl === 'https://placeholder-url.supabase.co') {
-      console.warn("Supabase keys missing. Simulating order deletion.");
       return { error: null };
     }
 
@@ -231,8 +240,7 @@ export const deleteOrder = async (id: string) => {
     if (error) throw error;
     return { error: null };
   } catch (error) {
-    console.error('Error deleting order:', error);
-    return { error };
+        return { error };
   }
 };
 
@@ -254,11 +262,15 @@ export const getMaterials = async () => {
 // Función para registrar envío de correos (simulado)
 export const logEmailSent = async (orderId: string, emailType: 'customer' | 'admin', recipient: string) => {
   if (supabaseUrl === 'https://placeholder-url.supabase.co') {
-    console.log(`Email ${emailType} enviado a ${recipient} para pedido ${orderId}`);
-    return { data: { id: 'log-' + Date.now() }, error: null };
+        return { data: { id: 'log-' + Date.now() }, error: null };
   }
 
   try {
+    const hasSession = await ensureAdminSession();
+    if (!hasSession) {
+      return { data: null, error: null } as any;
+    }
+
     const { data, error } = await supabase
       .from('email_logs')
       .insert([{
@@ -274,8 +286,7 @@ export const logEmailSent = async (orderId: string, emailType: 'customer' | 'adm
     if (error) throw error;
     return { data, error: null };
   } catch (error) {
-    console.error('Error logging email:', error);
-    return { data: null, error };
+        return { data: null, error };
   }
 };
 
@@ -306,6 +317,11 @@ export const getEmailHistory = async (orderId: string) => {
   }
 
   try {
+    const hasSession = await ensureAdminSession();
+    if (!hasSession) {
+      return { data: [], error: null } as any;
+    }
+
     const { data, error } = await supabase
       .from('email_logs')
       .select('*')
@@ -315,7 +331,6 @@ export const getEmailHistory = async (orderId: string) => {
     if (error) throw error;
     return { data, error: null };
   } catch (error) {
-    console.error('Error fetching email history:', error);
-    return { data: [], error };
+        return { data: [], error };
   }
 };

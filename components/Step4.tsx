@@ -103,6 +103,13 @@ export const Step4: React.FC<Step4Props> = ({
         return;
     }
 
+    const now = Date.now();
+    const lastSubmit = Number(localStorage.getItem('lastOrderSubmitAt') || '0');
+    if (now - lastSubmit < 30000) {
+      setErrorMsg("Espera 30 segundos antes de volver a enviar la solicitud.");
+      return;
+    }
+
     setIsSubmitting(true);
     setErrorMsg(null);
 
@@ -186,19 +193,10 @@ export const Step4: React.FC<Step4Props> = ({
       });
       
       // 3. Log email sending simulation
-      console.log("--- ENVIANDO CORREOS ---");
-      console.log("📧 Correo al cliente:", formData.email);
-      console.log("📧 Correo a administración: pedido@egea.com");
-      console.log("📋 Referencia:", referenceNumber);
-      console.log("--- PLANTILLA CLIENTE ---");
-      console.log(customerEmailHtml);
-      console.log("--- PLANTILLA ADMIN ---");
-      console.log(adminEmailHtml);
-      console.log("--------------------------------");
 
+      localStorage.setItem('lastOrderSubmitAt', String(Date.now()));
       setIsSuccess(true);
     } catch (err: any) {
-      console.error(err);
       setErrorMsg(err.message || "Hubo un error al procesar tu solicitud.");
     } finally {
       setIsSubmitting(false);
