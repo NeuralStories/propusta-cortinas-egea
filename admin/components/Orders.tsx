@@ -296,7 +296,7 @@ export const OrdersManager: React.FC = () => {
 <body>
     <div class="container">
         <div class="header">
-            <img src="/image/Egea- Evolucio G.png" alt="EGEA" style="height: 36px; display: block; margin: 0 auto 6px;" />
+            <img src="/image/egea-evolucio-g.png" alt="EGEA" style="height: 36px; display: block; margin: 0 auto 6px;" />
             <h1>Presupuesto EGEA</h1>
             <p>Sistemas de cortinas para profesionales</p>
         </div>

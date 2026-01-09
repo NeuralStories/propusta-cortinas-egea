@@ -62,7 +62,7 @@ export const generateCustomerEmailTemplate = (data: EmailTemplateData): string =
 
       <div style="background: linear-gradient(135deg, #803746, #a05252); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
 
-        <img src="/image/Egea- Evolucio G.png" alt="EGEA" style="height: 42px; margin: 0 auto 12px; display: block;" />
+        <img src="/image/egea-evolucio-g.png" alt="EGEA" style="height: 42px; margin: 0 auto 12px; display: block;" />
 
         <h1 style="color: white; margin: 0; font-size: 24px; font-weight: bold;">EGEA</h1>
 
@@ -394,7 +394,7 @@ export const generateAdminEmailTemplate = (data: EmailTemplateData): string => {
 
       <div style="background: #1f2937; padding: 25px; text-align: center; border-radius: 8px 8px 0 0;">
 
-        <img src="/image/Egea- Evolucio G.png" alt="EGEA" style="height: 34px; margin: 0 auto 10px; display: block;" />
+        <img src="/image/egea-evolucio-g.png" alt="EGEA" style="height: 34px; margin: 0 auto 10px; display: block;" />
 
         <h1 style="color: white; margin: 0; font-size: 24px; font-weight: bold;">NUEVA SOLICITUD DE ${isInfoMode ? 'INFORMACION' : 'PRESUPUESTO'}</h1>
 

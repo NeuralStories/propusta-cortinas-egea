@@ -28,7 +28,7 @@ export const AdminApp: React.FC = () => {
       <div className="min-h-screen bg-gray-50 p-6">
         <header className="max-w-6xl mx-auto mb-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <img src="/image/logo-placeholder.jpg.png" alt="Logo EGEA" className="h-8 object-contain" />
+            <img src="/image/egea-logo.png" alt="Logo EGEA" className="h-8 object-contain" />
             <div>
               <h1 className="text-xl font-bold text-gray-800">Backoffice EGEA</h1>
               <p className="text-sm text-gray-500">Acceso restringido</p>
