@@ -1,6 +1,10 @@
 # CortinasExpress Configurator
 
-React TypeScript Tailwind CSS Supabase Status
+![React](https://img.shields.io/badge/React-18%2F19-61DAFB?logo=react&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-38B2AC?logo=tailwindcss&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-Ready-3FCF8E?logo=supabase&logoColor=white)
+![Status](https://img.shields.io/badge/Status-Active-2E7D32)
 
 CortinasExpress Configurator es una plataforma de orquestacion de servicios de campo de alta fidelidad (Field Service Orchestrator). Disenada para cerrar la brecha entre la planificacion centralizada y la ejecucion operativa, la aplicacion proporciona una interfaz dual que permite la gestion de ordenes de trabajo complejas y su ejecucion secuencial en campo mediante dispositivos moviles.
 
