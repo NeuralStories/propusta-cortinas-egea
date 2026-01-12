@@ -22,6 +22,19 @@ export interface EmailTemplateData {
 
 }
 
+const resolvePublicBaseUrl = () => {
+  const configured = (import.meta as any).env?.VITE_PUBLIC_SITE_URL;
+  if (configured) return configured.replace(/\/+$/, '');
+  if (typeof window !== 'undefined') return window.location.origin;
+  return '';
+};
+
+const publicBaseUrl = resolvePublicBaseUrl();
+const resolvePublicImageUrl = (path: string) => {
+  if (!publicBaseUrl) return path;
+  return `${publicBaseUrl}${path}`;
+};
+
 
 
 export const generateCustomerEmailTemplate = (data: EmailTemplateData): string => {
@@ -51,6 +64,8 @@ export const generateCustomerEmailTemplate = (data: EmailTemplateData): string =
   const currentDate = new Date().toLocaleDateString('es-ES');
 
   const items = selectionSummary || [];
+  const logoUrl = resolvePublicImageUrl('/image/egea-evolucio-g.png');
+  const logoUrl = resolvePublicImageUrl('/image/egea-evolucio-g.png');
 
 
 
@@ -62,7 +77,7 @@ export const generateCustomerEmailTemplate = (data: EmailTemplateData): string =
 
       <div style="background: linear-gradient(135deg, #803746, #a05252); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
 
-        <img src="/image/egea-evolucio-g.png" alt="EGEA" style="height: 42px; margin: 0 auto 12px; display: block;" />
+        <img src="${logoUrl}" alt="EGEA" style="height: 42px; margin: 0 auto 12px; display: block;" />
 
         <h1 style="color: white; margin: 0; font-size: 24px; font-weight: bold;">EGEA</h1>
 
@@ -394,7 +409,7 @@ export const generateAdminEmailTemplate = (data: EmailTemplateData): string => {
 
       <div style="background: #1f2937; padding: 25px; text-align: center; border-radius: 8px 8px 0 0;">
 
-        <img src="/image/egea-evolucio-g.png" alt="EGEA" style="height: 34px; margin: 0 auto 10px; display: block;" />
+        <img src="${logoUrl}" alt="EGEA" style="height: 34px; margin: 0 auto 10px; display: block;" />
 
         <h1 style="color: white; margin: 0; font-size: 24px; font-weight: bold;">NUEVA SOLICITUD DE ${isInfoMode ? 'INFORMACION' : 'PRESUPUESTO'}</h1>
 

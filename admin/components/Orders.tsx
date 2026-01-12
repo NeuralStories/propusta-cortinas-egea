@@ -13,6 +13,10 @@ export const OrdersManager: React.FC = () => {
   const [emailOrder, setEmailOrder] = useState<DatabaseOrder | null>(null);
   const [showEmailManager, setShowEmailManager] = useState(false);
   const [sendingBudget, setSendingBudget] = useState<string | null>(null);
+  const publicBaseUrl =
+    (import.meta as any).env?.VITE_PUBLIC_SITE_URL ||
+    (typeof window !== 'undefined' ? window.location.origin : '');
+  const resolvePublicUrl = (path: string) => (publicBaseUrl ? `${publicBaseUrl}${path}` : path);
 
   const fetchOrders = async () => {
     try {
@@ -296,7 +300,7 @@ export const OrdersManager: React.FC = () => {
 <body>
     <div class="container">
         <div class="header">
-            <img src="/image/egea-evolucio-g.png" alt="EGEA" style="height: 36px; display: block; margin: 0 auto 6px;" />
+            <img src="${resolvePublicUrl('/image/egea-evolucio-g.png')}" alt="EGEA" style="height: 36px; display: block; margin: 0 auto 6px;" />
             <h1>Presupuesto EGEA</h1>
             <p>Sistemas de cortinas para profesionales</p>
         </div>

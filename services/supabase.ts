@@ -7,7 +7,17 @@ import type { Material } from '../types';
 const supabaseUrl = (import.meta as any).env?.VITE_SUPABASE_URL || 'https://placeholder-url.supabase.co';
 const supabaseKey = (import.meta as any).env?.VITE_SUPABASE_ANON_KEY || 'placeholder-key';
 
-export const supabase = createClient(supabaseUrl, supabaseKey);
+const resolveAdminStorageKey = () => {
+  if (typeof window === 'undefined') return undefined;
+  const isAdminPath = window.location.pathname.startsWith('/admin');
+  const isAdminHash = window.location.hash.startsWith('#/admin');
+  return isAdminPath || isAdminHash ? 'sb-admin-auth-token' : undefined;
+};
+
+const adminStorageKey = resolveAdminStorageKey();
+const supabaseOptions = adminStorageKey ? { auth: { storageKey: adminStorageKey } } : undefined;
+
+export const supabase = createClient(supabaseUrl, supabaseKey, supabaseOptions);
 
 export interface DatabaseOrder {
   id?: string;

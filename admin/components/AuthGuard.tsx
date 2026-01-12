@@ -19,6 +19,12 @@ export const AdminAuthGuard: React.FC<AuthGuardProps> = ({ children }) => {
       setLoading(false);
     };
     init();
+    const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsAuthed(!!session);
+    });
+    return () => {
+      authListener.subscription.unsubscribe();
+    };
   }, []);
 
   const handleLogin = async () => {
