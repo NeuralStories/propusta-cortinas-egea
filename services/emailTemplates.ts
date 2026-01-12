@@ -65,7 +65,6 @@ export const generateCustomerEmailTemplate = (data: EmailTemplateData): string =
 
   const items = selectionSummary || [];
   const logoUrl = resolvePublicImageUrl('/image/egea-evolucio-g.png');
-  const logoUrl = resolvePublicImageUrl('/image/egea-evolucio-g.png');
 
 
 
